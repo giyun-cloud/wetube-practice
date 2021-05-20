@@ -1,0 +1,22 @@
+{
+  "name": "23-wetube",
+  "version": "1.0.0",
+  "description": "practice wetube",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/giyun-cloud/wetube-practice.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/giyun-cloud/wetube-practice/issues"
+  },
+  "homepage": "https://github.com/giyun-cloud/wetube-practice#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
