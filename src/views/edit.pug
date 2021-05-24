@@ -1,4 +1,6 @@
 extends base.pug
 
 block content 
-  h1 Edit Video
+  form(method="POST")
+    input(name="title",placeholder="Video Title",value=`${video.title}`)
+    input(type="submit",value="Save")

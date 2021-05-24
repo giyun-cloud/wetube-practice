@@ -1,4 +1,10 @@
 extends base.pug
+include mixins/video.pug
 
 block content 
   h1 Welcome Wetube
+  a(href='videos/upload') Upload Video
+  each video in videos 
+    +video(video)
+  else 
+    li Don't found video
