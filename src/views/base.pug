@@ -10,8 +10,14 @@ html(lang="en")
     header 
       h1=pageTitle
     main
-      a(href="/") 
-        button  Home
+      a(href="/") Home
+      span &nbsp;&nbsp;
+      a(href="/search") Search
+      span &nbsp;&nbsp;
+      a(href="/join") Join
+      span &nbsp;&nbsp;
+      a(href="/login") Login
+      span &nbsp;&nbsp;
       block content
       div
         include partials/footer.pug

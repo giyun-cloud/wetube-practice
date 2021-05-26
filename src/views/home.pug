@@ -2,8 +2,7 @@ extends base.pug
 include mixins/video.pug
 
 block content 
-  a(href='videos/upload') 
-    button  Upload Video
+  a(href='videos/upload') Upload Video
   each video in videos 
     +video(video)
   else 

@@ -1,0 +1,13 @@
+extends base
+
+block content 
+  if errMsg
+    p=errMsg
+  form(method="POST")
+    input(name="username", required, placeholder="Usename")
+    input(name="password", required type="password", placeholder="Password")
+    input(type="submit", value="Login")
+  hr
+  div 
+    span Don't hav an account? 
+      a(href="/join") Create one now &rarr;
