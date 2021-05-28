@@ -3,7 +3,10 @@ import Video from '../models/Video'
 export const home = async (req, res) => {
   try {
     const videos = await Video.find({})
-    return res.render('home', { pageTitle: 'Home', videos })
+    return res.render('home', {
+      pageTitle: 'Home',
+      videos,
+    })
   } catch (error) {
     return res.render('error', { error })
   }
@@ -46,7 +49,7 @@ export const postEdit = async (req, res) => {
 }
 
 export const getUpload = (req, res) => {
-  return res.render('upload')
+  return res.render('upload', { pageTitle: 'Upload Video' })
 }
 export const postUpload = async (req, res) => {
   try {

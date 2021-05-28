@@ -14,10 +14,20 @@ html(lang="en")
       span &nbsp;&nbsp;
       a(href="/search") Search
       span &nbsp;&nbsp;
-      a(href="/join") Join
-      span &nbsp;&nbsp;
-      a(href="/login") Login
-      span &nbsp;&nbsp;
+      if loggedIn
+        a(href="/user/edit") 
+          small #{userInfo.name}
+        span &nbsp;&nbsp;
+        a(href="/logout") Log Out
+        span &nbsp;&nbsp;
+      else
+        a(href="/join") Join
+        span &nbsp;&nbsp;
+        a(href="/login") Login
+        span &nbsp;&nbsp;
+      br
+      a(href='videos/upload') 
+        button Upload Video
       block content
       div
         include partials/footer.pug

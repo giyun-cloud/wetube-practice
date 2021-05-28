@@ -52,7 +52,9 @@ export const postLogin = async (req, res) => {
       errMsg: '🔴Wrong Password',
     })
   }
-  return res.send('Success')
+  req.session.loggedIn = true
+  req.session.user = user
+  return res.redirect('/')
 }
 
 export const edit = (req, res) => res.send('<h1>Edit User</h1>')
