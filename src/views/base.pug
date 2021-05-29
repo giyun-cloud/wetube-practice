@@ -6,25 +6,27 @@ html(lang="en")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
     title #{pageTitle} | Wetube
     link(rel="stylesheet" href="https://unpkg.com/mvp.css")
+    style
+      include ./base.css
   body 
     header 
       h1=pageTitle
     main
       a(href="/") Home
-      span &nbsp;&nbsp;
+      span &nbsp;
       a(href="/search") Search
-      span &nbsp;&nbsp;
+      span &nbsp;
       if loggedIn
         a(href="/user/edit") 
           small #{userInfo.name}
-        span &nbsp;&nbsp;
+        span &nbsp;
         a(href="/logout") Log Out
-        span &nbsp;&nbsp;
+        span &nbsp;
       else
         a(href="/join") Join
-        span &nbsp;&nbsp;
+        span &nbsp;
         a(href="/login") Login
-        span &nbsp;&nbsp;
+        span &nbsp;
       br
       a(href='videos/upload') 
         button Upload Video
