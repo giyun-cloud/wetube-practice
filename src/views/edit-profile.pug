@@ -1,0 +1,12 @@
+extends base
+
+block content 
+  form(method="POST")
+    input(name="name", required, placeholder="Name", value=userInfo.name)
+    if userInfo.socialOnly 
+      input(value=userInfo.email, title='It is not possible to change e-mail when accessing Github.', disabled) 
+    else
+      input(name="email", required, type="email", placeholder="Email", value=userInfo.email)
+    input(name="username", required, placeholder="Usename", value=userInfo.username)
+    input(name="location", required, placeholder="Location", value=userInfo.location)
+    input(type="submit", value="Update Profile")

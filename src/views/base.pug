@@ -17,19 +17,18 @@ html(lang="en")
       a(href="/search") Search
       span &nbsp;
       if loggedIn
-        a(href="/user/edit") 
-          small #{userInfo.name}
+        a(href="/users/edit") Edit Profile
         span &nbsp;
-        a(href="/logout") Log Out
+        a(href="/users/logout") Log Out
         span &nbsp;
+        br
+        a(href='videos/upload') 
+        button Upload Video
       else
         a(href="/join") Join
         span &nbsp;
         a(href="/login") Login
         span &nbsp;
-      br
-      a(href='videos/upload') 
-        button Upload Video
       block content
       div
         include partials/footer.pug
