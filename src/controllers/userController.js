@@ -137,18 +137,32 @@ export const getEdit = (req, res) => {
 };
 export const postEdit = async (req, res) => {
   const {
+    session: { user: beforeUser },
     session: {
       user: { _id },
     },
     body: { name, username, location, email },
   } = req;
-  const user = await User.findByIdAndUpdate(_id, {
+  const currentUser = { username, email }; //Editable Ch
+  for (let key in currentUser) {
+    if (beforeUser[key] !== currentUser[key]) {
+      if (await User.exists({ [key]: currentUser[key] }))
+        res.render("edit-profile", {
+          pageTitle: "Edit Profile",
+          errMsg: `🔴This ${key} is already taken`,
+        });
+    }
+  }
+  await User.findByIdAndUpdate(_id, {
     name,
     username,
     location,
     email,
   });
-  req.session.user = user;
+  const userObj = { name, username, location, email };
+  for (let key in userObj) {
+    req.session.user[key] = userObj[key];
+  }
   return res.redirect("/");
 };
 export const remove = (req, res) => res.send("<h1>Remove User</h1>");

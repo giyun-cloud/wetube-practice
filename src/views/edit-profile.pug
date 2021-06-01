@@ -1,10 +1,12 @@
 extends base
 
 block content 
+  if errMsg
+    p=errMsg
   form(method="POST")
     input(name="name", required, placeholder="Name", value=userInfo.name)
     if userInfo.socialOnly 
-      input(value=userInfo.email, title='It is not possible to change e-mail when accessing Github.', disabled) 
+      input(value=userInfo.email, name="email", style="outline: none; color: #999", title='It is not possible to change e-mail when accessing Github.', readonly) 
     else
       input(name="email", required, type="email", placeholder="Email", value=userInfo.email)
     input(name="username", required, placeholder="Usename", value=userInfo.username)
