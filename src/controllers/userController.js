@@ -139,31 +139,80 @@ export const postEdit = async (req, res) => {
   const {
     session: { user: beforeUser },
     session: {
-      user: { _id },
+      user: { _id, avatarUrl },
     },
     body: { name, username, location, email },
+    file,
   } = req;
-  const currentUser = { username, email }; //Editable Ch
+  const currentUser = { username, email };
   for (let key in currentUser) {
-    if (beforeUser[key] !== currentUser[key]) {
+    if (beforeUser[key] !== currentUser[key])
       if (await User.exists({ [key]: currentUser[key] }))
-        res.render("edit-profile", {
+        return res.status(400).render("edit-profile", {
           pageTitle: "Edit Profile",
           errMsg: `🔴This ${key} is already taken`,
         });
-    }
   }
-  await User.findByIdAndUpdate(_id, {
-    name,
-    username,
-    location,
-    email,
-  });
-  const userObj = { name, username, location, email };
-  for (let key in userObj) {
-    req.session.user[key] = userObj[key];
-  }
+  const user = await User.findByIdAndUpdate(
+    _id,
+    {
+      avatarUrl: file ? file.path : avatarUrl,
+      name,
+      username,
+      location,
+      email,
+    },
+    { new: true },
+  );
+  req.session.user = user;
   return res.redirect("/");
+};
+
+export const getChangePassword = (req, res) => {
+  if (req.session.user.socialOnly) return res.redirect("/");
+  return res.render("users/change-password", { pageTitle: "Change Password" });
+};
+export const postChangePassword = async (req, res) => {
+  const {
+    session: {
+      user: { _id, password },
+    },
+    body: { oldPW, newPW, newPWConfirm },
+  } = req;
+
+  const adress = "users/change-password",
+    pageTitle = "Change Password",
+    errMsg = [
+      "🔴The password does not match the confirmation",
+      "🔴Same as old password",
+      "🔴The current password is incorrect",
+    ];
+
+  if (newPW !== newPWConfirm)
+    return res.status(400).render(adress, {
+      pageTitle,
+      errMsg: errMsg[0],
+    });
+
+  if (oldPW === newPW)
+    return res.status(400).render(adress, {
+      pageTitle,
+      errMsg: errMsg[1],
+    });
+
+  if (!(await bcrypt.compare(oldPW, password)))
+    return res.status(400).render(adress, {
+      pageTitle,
+      errMsg: errMsg[2],
+    });
+
+  const user = await User.findById(_id);
+  user.password = newPW;
+  user.save();
+  console.log(user.password);
+  req.session.user.password = user.password;
+  console.log(user.password);
+  res.redirect("/users/logout");
 };
 export const remove = (req, res) => res.send("<h1>Remove User</h1>");
 export const see = (req, res) => {

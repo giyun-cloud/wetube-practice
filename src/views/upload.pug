@@ -3,7 +3,9 @@ extends base.pug
 block content
   if errmsg
     span 🔴error: #{errmsg}
-  form(method='POST')
+  form(method='POST', enctype="multipart/form-data")
+    label(for="video") Video File
+    input(type="file", required, id="video", name="video", accept="video/*")
     input(name='title', placeholder='Title', required, maxlength='50')
     input(name='description', placeholder='Description', required, maxlength='150')
     input(name='hashtags', placeholder='Hashtags separated by comma', required)

@@ -1,6 +1,8 @@
 extends base
 
 block content 
+  br
+  video(src='/' + video.fileUrl,controls)  
   p=video.description
   small=video.createdAt
   div 

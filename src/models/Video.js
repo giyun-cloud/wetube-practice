@@ -1,6 +1,7 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 
 const videoSchema = new mongoose.Schema({
+  fileUrl: { type: String, required: true },
   title: { type: String, required: true, trim: true, maxLength: 50 },
   description: { type: String, required: true, trim: true, maxLength: 150 },
   createdAt: { type: Date, required: true, default: Date.now },
@@ -9,12 +10,12 @@ const videoSchema = new mongoose.Schema({
     views: { type: Number, required: true, default: 0 },
     rating: { type: Number, required: true, default: 0 },
   },
-})
+});
 
-videoSchema.static('hashtagsForm', (hashtags) =>
-  hashtags.split(',').map((word) => (word.startsWith('#') ? word : `#${word}`)),
-)
+videoSchema.static("hashtagsForm", (hashtags) =>
+  hashtags.split(",").map((word) => (word.startsWith("#") ? word : `#${word}`)),
+);
 
-const movieModel = mongoose.model('video', videoSchema)
+const movieModel = mongoose.model("video", videoSchema);
 
-export default movieModel
+export default movieModel;
