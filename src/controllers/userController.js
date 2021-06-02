@@ -2,6 +2,7 @@ import User from "../models/User";
 import bcrypt from "bcrypt";
 import fetch from "node-fetch";
 
+//JOIN
 export const getJoin = (req, res) => res.render("join", { pageTitle: "Join" });
 export const postJoin = async (req, res) => {
   const { name, email, username, password, password2, location } = req.body;
@@ -35,6 +36,8 @@ export const postJoin = async (req, res) => {
     });
   }
 };
+
+//LOGIN
 export const getLogin = (req, res) =>
   res.render("login", { pageTitle: "Login" });
 export const postLogin = async (req, res) => {
@@ -44,7 +47,7 @@ export const postLogin = async (req, res) => {
   if (!user) {
     return res.status(400).render("login", {
       pageTitle,
-      errMsg: "🔴We don't have such username",
+      errMsg: "🔴We don't have such username or You have a Github ID",
     });
   }
   const ok = await bcrypt.compare(password, user.password);
@@ -59,6 +62,7 @@ export const postLogin = async (req, res) => {
   return res.redirect("/");
 };
 
+//GITHUBLOGIN
 export const startGithubLogin = (req, res) => {
   const config = {
     client_id: process.env.GH_CLIENT,
@@ -117,7 +121,6 @@ export const finishGithubLogin = async (req, res) => {
           ? emailObj.email + "##username##"
           : userData.login,
         socialOnly: true,
-        password: "",
         location: !userData.location ? "Enter your location" : userData.name,
       });
     }
@@ -127,11 +130,13 @@ export const finishGithubLogin = async (req, res) => {
   } else res.redirect("/login");
 };
 
+//LOGOUT
 export const logout = (req, res) => {
   req.session.destroy();
   return res.redirect("/");
 };
 
+//EDIT
 export const getEdit = (req, res) => {
   return res.render("edit-profile", { pageTitle: "Edit Profile" });
 };
@@ -168,6 +173,7 @@ export const postEdit = async (req, res) => {
   return res.redirect("/");
 };
 
+//CHANGE PASSWORD
 export const getChangePassword = (req, res) => {
   if (req.session.user.socialOnly) return res.redirect("/");
   return res.render("users/change-password", { pageTitle: "Change Password" });
@@ -215,6 +221,11 @@ export const postChangePassword = async (req, res) => {
   res.redirect("/users/logout");
 };
 export const remove = (req, res) => res.send("<h1>Remove User</h1>");
-export const see = (req, res) => {
-  return res.send(`<h1>See User</h1> ${JSON.stringify(req.params)}`);
+export const see = async (req, res) => {
+  const { id } = req.params;
+  const user = await User.findById(id);
+  if (!user) {
+    return res.status(404).render("404", { pageTitle: "404 User Not Found" });
+  }
+  return res.render("users/profile", { pageTitle: user.name, user });
 };

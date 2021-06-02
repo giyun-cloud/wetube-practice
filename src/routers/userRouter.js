@@ -14,6 +14,7 @@ import {
   protectorMiddleware,
   publicOnlyMiddleware,
   avatarUpload,
+  idTypeCheck,
 } from "../middlewares";
 
 const userRouter = express.Router();
@@ -32,6 +33,6 @@ userRouter
   .get(getChangePassword)
   .post(postChangePassword);
 userRouter.get("/remove", remove);
-userRouter.get("/:id(\\d+)", see);
+userRouter.get("/:id", idTypeCheck, see);
 
 export default userRouter;

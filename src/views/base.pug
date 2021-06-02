@@ -17,6 +17,8 @@ html(lang="en")
       a(href="/search") Search
       span &nbsp;
       if loggedIn
+        a(href=`/users/${userInfo._id}`) My Profile
+        span &nbsp;
         a(href="/users/edit") Edit Profile
         span &nbsp;
         a(href="/users/logout") Log Out
