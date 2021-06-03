@@ -1,4 +1,10 @@
 extends ../base
+include ../mixins/video.pug
 
 block content 
+  h2 My videos
+  each video in user.videos 
+    +video(video) 
+  else 
+    p Don't found video
   

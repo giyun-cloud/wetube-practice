@@ -1,4 +1,5 @@
 import User from "../models/User";
+import Video from "../models/Video";
 import bcrypt from "bcrypt";
 import fetch from "node-fetch";
 
@@ -144,7 +145,7 @@ export const postEdit = async (req, res) => {
   const {
     session: { user: beforeUser },
     session: {
-      user: { _id, avatarUrl },
+      user: { _id: id, avatarUrl },
     },
     body: { name, username, location, email },
     file,
@@ -159,7 +160,7 @@ export const postEdit = async (req, res) => {
         });
   }
   const user = await User.findByIdAndUpdate(
-    _id,
+    id,
     {
       avatarUrl: file ? file.path : avatarUrl,
       name,
@@ -220,12 +221,14 @@ export const postChangePassword = async (req, res) => {
   console.log(user.password);
   res.redirect("/users/logout");
 };
-export const remove = (req, res) => res.send("<h1>Remove User</h1>");
+
 export const see = async (req, res) => {
   const { id } = req.params;
-  const user = await User.findById(id);
+  const user = await User.findById(id).populate("videos");
   if (!user) {
     return res.status(404).render("404", { pageTitle: "404 User Not Found" });
   }
   return res.render("users/profile", { pageTitle: user.name, user });
 };
+
+export const remove = (req, res) => res.send("<h1>Remove User</h1>");
