@@ -2,7 +2,8 @@ extends base.pug
 include mixins/video.pug
 
 block content 
-  each video in videos 
-    +video(video)
-  else 
-    p Don't found video
+  div.video-grid
+    each video in videos 
+      +video(video)
+    else 
+      span.empty__message No videos found

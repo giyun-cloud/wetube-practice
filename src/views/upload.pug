@@ -2,7 +2,7 @@ extends base.pug
 
 block content
   if errmsg
-    span 🔴error: #{errmsg}
+    span=errmsg
   form(method='POST', enctype="multipart/form-data")
     label(for="video") Video File
     input(type="file", required, id="video", name="video", accept="video/*")

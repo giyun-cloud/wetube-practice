@@ -5,33 +5,11 @@ html(lang="en")
     meta(http-equiv="X-UA-Compatible", content="IE=edge")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
     title #{pageTitle} | Wetube
-    link(rel="stylesheet" href="https://unpkg.com/mvp.css")
-    style
-      include ./base.css
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css")
+    link(rel="stylesheet" href="/static/css/styles.css")
   body 
-    header 
-      h1=pageTitle
-    main
-      a(href="/") Home
-      span &nbsp;
-      a(href="/search") Search
-      span &nbsp;
-      if loggedIn
-        a(href=`/users/${userInfo._id}`) My Profile
-        span &nbsp;
-        a(href="/users/edit") Edit Profile
-        span &nbsp;
-        a(href="/users/logout") Log Out
-        span &nbsp;
-        br
-        a(href='/videos/upload') 
-          button Upload Video
-      else
-        a(href="/join") Join
-        span &nbsp;
-        a(href="/login") Login
-        span &nbsp;
+    include partials/header.pug
+    main 
       block content
-      div
-        include partials/footer.pug
-      script(src="/static/js/main.js") 
+    include partials/footer.pug
+  block script

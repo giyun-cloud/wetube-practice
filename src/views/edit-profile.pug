@@ -3,19 +3,17 @@ extends base
 block content 
   if errMsg
     p=errMsg
-  if userInfo.avatarUrl
-    br
-    img(src="/" + userInfo.avatarUrl, alt="avatarImg", height="100")
-  form(method="POST", enctype="multipart/form-data")
+  form(method="POST", enctype="multipart/form-data").edit-profile__form
     label Avatar 
-      input(name="avatar", type="file", accept="image/*")
+    input(name="avatar", type="file", accept="image/*")
     input(name="name", required, placeholder="Name", value=userInfo.name)
     if userInfo.socialOnly 
-      input(value=userInfo.email, name="email", style="outline: none; color: #999", title='It is not possible to change e-mail when accessing Github.', readonly) 
+      input(value=userInfo.email, name="email", title='It is not possible to change e-mail when accessing Github.', readonly) 
     else
       input(name="email", required, type="email", placeholder="Email", value=userInfo.email)
     input(name="username", required, placeholder="Usename", value=userInfo.username)
     input(name="location", required, placeholder="Location", value=userInfo.location)
     input(type="submit", value="Update Profile")
     if !userInfo.socialOnly   
-      a(href="change-password") Change Password &rarr;
+      div.edit-profile__password
+        a(href="change-password") Change Password &rarr;

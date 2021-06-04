@@ -24,6 +24,7 @@ export const postJoin = async (req, res) => {
   try {
     await User.create({
       name,
+      avatarUrl: "",
       email,
       username,
       password,
@@ -115,7 +116,7 @@ export const finishGithubLogin = async (req, res) => {
     const userUserName = await User.exists({ username: userData.login });
     if (!user) {
       user = await User.create({
-        avatarUrl: userData.avatar_url,
+        avatarUrl: userData.avatar_url ? userData.avatar_url : "",
         name: !userData.name ? "Enter your name" : userData.name,
         email: emailObj.email,
         username: userUserName
@@ -125,6 +126,7 @@ export const finishGithubLogin = async (req, res) => {
         location: !userData.location ? "Enter your location" : userData.name,
       });
     }
+    console.log(user);
     req.session.loggedIn = true;
     req.session.user = user;
     return res.redirect("/");

@@ -3,7 +3,9 @@ import User from "../models/User";
 
 export const home = async (req, res) => {
   try {
-    const videos = await Video.find({}).sort({ createdAt: "desc" });
+    const videos = await Video.find({})
+      .sort({ createdAt: "desc" })
+      .populate("owner");
     return res.render("home", {
       pageTitle: "Home",
       videos,
@@ -72,7 +74,7 @@ export const postUpload = async (req, res) => {
     user.save();
     return res.redirect("/");
   } catch (error) {
-    return res.status(400).render("upload", { errmsg: error._message });
+    return res.status(400).render("upload", { errMsg: `🔴${error._message}` });
   }
 };
 
