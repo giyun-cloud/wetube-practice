@@ -6,7 +6,6 @@ header {
   .header__logo {
     color: $primary;
     font-size: 38px;
-    transition: 1s linear;
     &:hover {
       transform: scale(1.1);
       color: #fff;

@@ -1,9 +1,39 @@
 const video = document.querySelector("video");
 const playBtn = document.getElementById("play");
+
 const muteBtn = document.getElementById("mute");
-const time = document.getElementById("time");
 const volumeRange = document.getElementById("volume");
-let volumeRangeStore;
+let volumeRangeStore = 0.5;
+video.volume = volumeRangeStore;
+
+const currentTime = document.getElementById("currentTime");
+const totalTime = document.getElementById("totalTime");
+let timeLength;
+
+const timeLine = document.getElementById("timeLine");
+const fullscreenBtn = document.getElementById("fullscreen");
+const videoContainer = document.getElementById("videoContainer");
+const videoControls = document.getElementById("videoControls");
+let showingClassProcess = null;
+
+const formatTime = (sec, currentTimeIs) => {
+  if (currentTimeIs)
+    return new Date(sec * 1000)
+      .toISOString()
+      .substr(19 - timeLength, timeLength);
+  const time = new Date(sec * 1000).toISOString().substr(11, 8);
+  const returnTime =
+    time.indexOf("00") === 0
+      ? time.indexOf(":0") === 2
+        ? time.substr(4)
+        : time.substr(3)
+      : time;
+  timeLength = returnTime.length;
+  return returnTime;
+};
+const setTimeoutShowing = () => {
+  videoControls.classList.remove("showing");
+};
 
 playBtn.addEventListener("click", () => {
   video.paused ? video.play() : video.pause();
@@ -14,7 +44,8 @@ muteBtn.addEventListener("click", () => {
   if (video.muted) {
     video.muted = false;
     muteBtn.innerText = "Mute";
-    volumeRange.value = volumeRangeStore === "0" ? 0.5 : volumeRangeStore;
+    video.volume = volumeRange.value =
+      volumeRangeStore === "0" ? 0.1 : volumeRangeStore;
   } else {
     video.muted = true;
     muteBtn.innerText = "Unmute";
@@ -23,6 +54,43 @@ muteBtn.addEventListener("click", () => {
   }
 });
 
-volumeRange.addEventListener("input", () => {
-  console.log("change");
+volumeRange.addEventListener("input", (e) => {
+  video.volume = e.target.value;
+  if (video.muted) {
+    video.muted = false;
+    muteBtn.innerText = "Mute";
+  }
+});
+
+video.addEventListener("loadedmetadata", () => {
+  totalTime.innerText = formatTime(Math.floor(video.duration));
+  currentTime.innerText = currentTime.innerText.substr(8 - timeLength);
+  timeLine.max = video.duration;
+  video.addEventListener("timeupdate", () => {
+    currentTime.innerText = formatTime(Math.floor(video.currentTime), true);
+    timeLine.value = video.currentTime;
+  });
+});
+video.addEventListener("mousemove", () => {
+  videoControls.classList.add("showing");
+  if (showingClassProcess) {
+    clearTimeout(showingClassProcess);
+    showingClassProcess = null;
+  }
+  showingClassProcess = setTimeout(setTimeoutShowing, 2000);
+});
+video.addEventListener("mouseleave", () => {
+  showingClassProcess = setTimeout(setTimeoutShowing, 2000);
+});
+timeLine.addEventListener("input", (e) => {
+  video.currentTime = e.target.value;
+});
+fullscreenBtn.addEventListener("click", () => {
+  if (document.fullscreenElement) {
+    document.exitFullscreen();
+    fullscreenBtn.innerText = "Enter Full Screen";
+  } else {
+    videoContainer.requestFullscreen();
+    fullscreenBtn.innerText = "Exit Full Screen";
+  }
 });
