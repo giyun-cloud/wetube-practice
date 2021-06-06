@@ -4,16 +4,20 @@ block content
   div#videoContainer
     video(src='/' + video.fileUrl)  
     div#videoControls
-      button#play Play 
-      button#mute Mute 
-      input(type="range", step="0.1", value="0.5", min="0", max="1")#volume
-      div 
-        span#currentTime.time 00:00:00
-        span  / 
-        span#totalTime.time 00:00:00
-      div
-        input(type="range", step="0.2", value="0", min="0")#timeLine
-      button#fullscreen Enter Full Screen
+      input(type="range", step="0.1", value="0", min="0")#timeLine
+      div#controls--btns
+        div#btns--left
+          button#play 
+            i.fas.fa-play 
+          button#mute 
+            i.fas.fa-volume-up 
+          input(type="range", step="0.1", value="0.5", min="0", max="1")#volume
+          div.time
+            span#currentTime 00:00:00
+            span  / 
+            span#totalTime 00:00:00
+        button#fullscreen 
+          i.fas.fa-expand
 
 
 

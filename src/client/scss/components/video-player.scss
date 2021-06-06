@@ -1,0 +1,47 @@
+.time {
+  font-family: system-ui;
+}
+#videoContainer {
+  width: fit-content;
+  margin: 0 auto;
+  position: relative;
+  video {
+    width: 100%; 
+    height: 100%;
+  }
+  #videoControls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    #timeLine {
+      width: 100%;
+    }
+    #controls--btns{
+      display: flex;
+      justify-content: space-between;
+      button {
+        background-color: transparent;
+        border: none;
+      }
+      input {
+        width: 75px;
+        height: 7px;
+      }
+      #btns--left {
+        display: flex;
+        align-items: center;
+      }
+      #play,#mute,.time {
+        font-size: 18px;
+        color: #fff;
+        text-shadow: 0 0 1px #000, 0 0 2px #000;
+      }
+      #fullscreen {
+        font-size: 25px;
+        color: #fff;
+        text-shadow: 0 0 1px #000, 0 0 2px #000;
+      }
+    }
+  }
+}
