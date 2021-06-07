@@ -19,7 +19,7 @@ const videoContainer = document.getElementById("videoContainer");
 const videoControls = document.getElementById("videoControls");
 let showingClassProcess = null;
 
-const formatTime = (sec, currentTimeIs) => {
+const funcformatTime = (sec, currentTimeIs) => {
   if (currentTimeIs)
     return new Date(sec * 1000)
       .toISOString()
@@ -34,15 +34,21 @@ const formatTime = (sec, currentTimeIs) => {
   timeLength = returnTime.length;
   return returnTime;
 };
-const setTimeoutShowing = () => {
+const funcSetTimeoutShowing = () => {
   videoControls.classList.remove("showing");
 };
-
-playBtn.addEventListener("click", () => {
+const handlePlayVideo = () => {
   video.paused ? video.play() : video.pause();
   playBtnIcon.className = video.paused ? "fas fa-play" : "fas fa-pause";
-});
+};
 
+window.addEventListener("keydown", (e) => {
+  if (e.code === "Space") {
+    e.preventDefault();
+    handlePlayVideo();
+  }
+});
+playBtn.addEventListener("click", handlePlayVideo);
 muteBtn.addEventListener("click", () => {
   if (video.muted) {
     video.muted = false;
@@ -56,7 +62,6 @@ muteBtn.addEventListener("click", () => {
     volumeRange.value = 0;
   }
 });
-
 volumeRange.addEventListener("input", (e) => {
   video.volume = e.target.value;
   if (video.muted) {
@@ -64,14 +69,24 @@ volumeRange.addEventListener("input", (e) => {
     muteBtn.innerText = "Mute";
   }
 });
-
+video.addEventListener("click", handlePlayVideo);
 video.addEventListener("loadedmetadata", () => {
-  totalTime.innerText = formatTime(Math.floor(video.duration));
+  totalTime.innerText = funcformatTime(Math.floor(video.duration));
   currentTime.innerText = currentTime.innerText.substr(8 - timeLength);
   timeLine.max = Math.floor(video.duration * 10) / 10;
   video.addEventListener("timeupdate", () => {
-    currentTime.innerText = formatTime(Math.floor(video.currentTime), true);
+    currentTime.innerText = funcformatTime(Math.floor(video.currentTime), true);
     timeLine.value = video.currentTime;
+  });
+});
+video.addEventListener("ended", () => {
+  playBtnIcon.className = "fas fa-play";
+  videoControls.classList.add("showing");
+  showingClassProcess = setTimeout(funcSetTimeoutShowing, 3000);
+  const { id } = videoContainer.dataset;
+  console.log(id);
+  fetch(`/api/videos/${id}/view`, {
+    method: "POST",
   });
 });
 video.addEventListener("mousemove", () => {
@@ -80,10 +95,14 @@ video.addEventListener("mousemove", () => {
     clearTimeout(showingClassProcess);
     showingClassProcess = null;
   }
-  showingClassProcess = setTimeout(setTimeoutShowing, 2000);
+  showingClassProcess = setTimeout(funcSetTimeoutShowing, 2000);
 });
-video.addEventListener("mouseleave", () => {
-  showingClassProcess = setTimeout(setTimeoutShowing, 2000);
+videoContainer.addEventListener("mouseleave", () => {
+  funcSetTimeoutShowing();
+});
+videoControls.addEventListener("mouseenter", () => {
+  videoControls.classList.add("showing");
+  clearTimeout(showingClassProcess);
 });
 timeLine.addEventListener("input", (e) => {
   video.currentTime = e.target.value;
@@ -91,9 +110,9 @@ timeLine.addEventListener("input", (e) => {
 fullscreenBtn.addEventListener("click", () => {
   if (document.fullscreenElement) {
     document.exitFullscreen();
-    fullscreenBtn.innerText = "Enter Full Screen";
+    fullscreenBtnIcon.className = "fas fa-expand";
   } else {
     videoContainer.requestFullscreen();
-    fullscreenBtn.innerText = "Exit Full Screen";
+    fullscreenBtnIcon.className = "fas fa-compress";
   }
 });

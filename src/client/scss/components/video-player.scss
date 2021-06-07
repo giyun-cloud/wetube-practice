@@ -1,6 +1,3 @@
-.time {
-  font-family: system-ui;
-}
 #videoContainer {
   width: fit-content;
   margin: 0 auto;
@@ -11,22 +8,40 @@
   }
   #videoControls {
     position: absolute;
+    height: 37px;
     bottom: 0;
     left: 0;
     right: 0;
+    opacity: 0;
+    background-color: rgba(0,0,0,0);
+    transition: .4s;
+    &.showing {
+      opacity: 1;
+      background-color: rgba(0,0,0,0.3);
+    }
     #timeLine {
       width: 100%;
+      position: absolute;
+      top:-4px;
+      margin: 0;
+      height: 8px;
     }
     #controls--btns{
       display: flex;
       justify-content: space-between;
+      padding: 0 10px;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
       button {
         background-color: transparent;
         border: none;
+        outline: none;
       }
       input {
         width: 75px;
-        height: 7px;
+        height: 6px;
       }
       #btns--left {
         display: flex;
@@ -37,8 +52,13 @@
         color: #fff;
         text-shadow: 0 0 1px #000, 0 0 2px #000;
       }
+      .time {
+        font-family: system-ui;
+      }
       #fullscreen {
-        font-size: 25px;
+        display: block;
+        font-size: 23px;
+        padding: 0;
         color: #fff;
         text-shadow: 0 0 1px #000, 0 0 2px #000;
       }

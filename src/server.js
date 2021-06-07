@@ -6,6 +6,7 @@ import rootRouter from "./routers/rootRouter.js";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter.js";
 import { localsMiddleware } from "./middlewares.js";
+import apiRouter from "./routers/apiRouter.js";
 
 const app = express();
 app.set("view engine", "pug");
@@ -25,6 +26,7 @@ app.use(localsMiddleware);
 app.use("/", rootRouter);
 app.use("/users", userRouter);
 app.use("/videos", videoRouter);
+app.use("/api", apiRouter);
 app.use("/uploads", express.static("uploads"));
 app.use("/static", express.static("assets"));
 
