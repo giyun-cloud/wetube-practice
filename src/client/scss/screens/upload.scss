@@ -1,0 +1,18 @@
+.recorder {
+  width: fit-content;
+  margin: 0 auto 10px;
+  text-align: center;
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: 1px solid rgba($color: #fff, $alpha: 0.1);
+  button {
+    display: block;
+    width: 140px;
+    height: 30px;
+    border-radius: 5px;
+    outline: none;
+    background-color: #495057;
+    color: #fff;
+    margin: 5px auto 0;
+  }
+}

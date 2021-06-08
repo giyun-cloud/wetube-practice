@@ -84,7 +84,6 @@ video.addEventListener("ended", () => {
   videoControls.classList.add("showing");
   showingClassProcess = setTimeout(funcSetTimeoutShowing, 3000);
   const { id } = videoContainer.dataset;
-  console.log(id);
   fetch(`/api/videos/${id}/view`, {
     method: "POST",
   });

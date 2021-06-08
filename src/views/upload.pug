@@ -3,14 +3,16 @@ extends base.pug
 block content
   if errmsg
     span=errmsg
-  div 
-    video#preview.display-none
+  div.recorder  - Recorder -
     button#previewBtn Open Preview
-    button#startBtn.display-none Start Recording
+    button#actionBtn.display-none Start Recording
     div#errorMsg
+    video#preview.display-none
   form(method='POST', enctype="multipart/form-data")
     label(for="video") Video File
     input(type="file", required, id="video", name="video", accept="video/*")
+    label(for="thumb") Thumbnail File
+    input(type="file", required, id="thumb", name="thumb", accept="image/*")
     input(name='title', placeholder='Title', required, maxlength='50')
     input(name='description', placeholder='Description', required, maxlength='150')
     input(name='hashtags', placeholder='Hashtags separated by comma', required)
