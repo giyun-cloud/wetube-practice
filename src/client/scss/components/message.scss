@@ -1,0 +1,38 @@
+.message {
+  position: absolute;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  top: -50px;
+  padding: 10px 20px;
+  color: #f1f3f5;
+  width: fit-content;
+  border-radius: 15px;
+  border: 2px solid #f1f3f5;
+  animation: messageMove 5s ease-in forwards;
+  &.message--error{
+    background-color: #e8590c;
+  }
+  &.message--success{
+    background-color: #40c057;
+  }
+}
+
+@keyframes messageMove {
+  0% {
+    opacity: 0;
+    transform: none;
+  }
+  10% {
+    opacity: .9;
+    transform: translateY(70px);
+  }
+  80% {
+    opacity: .9;
+    transform: translateY(70px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+}

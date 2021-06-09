@@ -1,13 +1,18 @@
 import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg";
+import { async } from "regenerator-runtime";
 
 const previewBtn = document.getElementById("previewBtn");
 const actionBtn = document.getElementById("actionBtn");
 const uiMsgEl = document.getElementById("errorMsg");
 const preview = document.getElementById("preview");
-let stream;
-let recorder;
-let videoFile;
+const setTimeEl = document.getElementById("setTime");
+const videoThumnailBtn = document.getElementById("videoThumnail");
+const videoInput = document.getElementById("video");
+let stream, recorder, videoFile;
 let uiMsg1, uiMsg2, uiMsg3, setTimeout1, setTimeout2;
+let setTimeoutRecorder, setIntervalRecorder;
+let videoInputFile;
+
 const filename = {
   input: "recording.webm",
   output: "output.mp4",
@@ -73,10 +78,22 @@ const handleStart = () => {
     preview.play();
   };
   recorder.start();
+  let time = 5;
+  setTimeEl.innerText = time + "s";
+  setIntervalRecorder = setInterval(() => {
+    time -= 1;
+    setTimeEl.innerText = time + "s";
+  }, 1000);
+  setTimeoutRecorder = setTimeout(() => {
+    handleStop();
+  }, 5100);
   eventListenerAndTextChange("Stop Recording", handleStart, handleStop);
 };
 const handleStop = () => {
   recorder.stop();
+  clearTimeout(setTimeoutRecorder);
+  clearInterval(setIntervalRecorder);
+  setTimeEl.innerText = null;
   eventListenerAndTextChange("Download Recording", handleStop, handleDownload);
 };
 const handleDownload = async () => {
@@ -89,7 +106,7 @@ const handleDownload = async () => {
     "-i",
     filename.input,
     "-ss",
-    "00:00:00",
+    "00:00:01",
     "-frames:v",
     "1",
     filename.thumb,
@@ -143,5 +160,37 @@ previewBtn.addEventListener("click", () => {
   }
 });
 actionBtn.addEventListener("click", handleStart);
+videoInput.addEventListener("change", (e) => {
+  videoInputFile = videoInput.files[0];
+});
+videoThumnailBtn.addEventListener("click", async () => {
+  if (!videoInputFile) {
+    return alert("선택된 비디오 파일이 없습니다.");
+  }
+  const ffmpeg = createFFmpeg({ log: true });
+  const textSave = videoThumnailBtn.innerText;
+  videoThumnailBtn.innerText = "Progressing";
+  videoThumnailBtn.className = "progressing";
+  videoThumnailBtn.disabled = true;
+  await ffmpeg.load();
+  ffmpeg.FS("writeFile", "video.mp4", await fetchFile(videoInputFile));
+  await ffmpeg.run(
+    "-i",
+    "video.mp4",
+    "-ss",
+    "00:00:01",
+    "-frames:v",
+    "1",
+    filename.thumb,
+  );
+  videoThumnailBtn.innerText = textSave;
+  videoThumnailBtn.disabled = false;
+  videoThumnailBtn.className = null;
+  const thumbnailFile = ffmpeg.FS("readFile", filename.thumb);
+  const thumbnailBlob = new Blob([thumbnailFile.buffer], { type: "image/jpg" });
+  const thumbnailUrl = URL.createObjectURL(thumbnailBlob);
+  createElementAndClick(thumbnailUrl, "MyThumbnail.jpg");
+  ffmpeg.FS("unlink", filename.thumb);
+});
 
 init();

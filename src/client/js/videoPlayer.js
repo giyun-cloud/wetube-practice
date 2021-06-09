@@ -66,7 +66,7 @@ volumeRange.addEventListener("input", (e) => {
   video.volume = e.target.value;
   if (video.muted) {
     video.muted = false;
-    muteBtn.innerText = "Mute";
+    muteBtnIcon.className = "fas fa-volume-up";
   }
 });
 video.addEventListener("click", handlePlayVideo);

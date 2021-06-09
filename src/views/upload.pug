@@ -3,13 +3,16 @@ extends base.pug
 block content
   if errmsg
     span=errmsg
-  div.recorder  - Recorder -
+  div.recorder  - Recorder - 
+    p#setTime Can record up to 5 seconds
     button#previewBtn Open Preview
     button#actionBtn.display-none Start Recording
     div#errorMsg
     video#preview.display-none
   form(method='POST', enctype="multipart/form-data")
-    label(for="video") Video File
+    div.videoLabel
+      label(for="video") Video File &nbsp;
+      a(href="javascript:;")#videoThumnail Thumbnail File Output
     input(type="file", required, id="video", name="video", accept="video/*")
     label(for="thumb") Thumbnail File
     input(type="file", required, id="thumb", name="thumb", accept="image/*")

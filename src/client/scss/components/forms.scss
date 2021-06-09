@@ -29,11 +29,11 @@ input:not(input[type="range"]) {
   }
 }
 
-input[type="submit"],
+input[type="submit"]:not(input[type="range"]),
 .social__btn {
   border-radius: 5px;
   padding: 12px 20px;
-  background-color: #fff;
+  background-color: #e9ecef;
   color: $bg;
   text-align: center;
   cursor: pointer;

@@ -12,12 +12,13 @@ const videoSchema = new mongoose.Schema({
     rating: { type: Number, required: true, default: 0 },
   },
   owner: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "User" },
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
 });
 
 videoSchema.static("hashtagsForm", (hashtags) =>
   hashtags.split(",").map((word) => (word.startsWith("#") ? word : `#${word}`)),
 );
 
-const movieModel = mongoose.model("Video", videoSchema);
+const Video = mongoose.model("Video", videoSchema);
 
-export default movieModel;
+export default Video;

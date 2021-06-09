@@ -1,5 +1,6 @@
 import Video from "../models/Video";
 import User from "../models/User";
+import fs from "fs";
 
 export const home = async (req, res) => {
   try {
@@ -40,7 +41,7 @@ export const getEdit = async (req, res) => {
 export const postEdit = async (req, res) => {
   const { id } = req.params;
   const { title, description, hashtags } = req.body;
-  const video = await Video.exists({ _id: id });
+  const video = await Video.findById({ _id: id });
   if (!video) return res.render("404", { pageTitle: "Video not found" });
   if (String(video.owner) !== String(req.session.user._id))
     return res.status(403).redirect("/");
@@ -49,6 +50,7 @@ export const postEdit = async (req, res) => {
     description,
     hashtags: Video.hashtagsForm(hashtags),
   });
+  req.flash("success", "Edit done.");
   return res.redirect(`/videos/${id}`);
 };
 
@@ -58,12 +60,15 @@ export const getUpload = (req, res) => {
 export const postUpload = async (req, res) => {
   try {
     const {
-      session: { user: _id },
+      session: {
+        user: { _id },
+      },
       body: { title, description, hashtags },
-      file: { path: fileUrl },
+      files: { video, thumb },
     } = req;
     const newVideo = await Video.create({
-      fileUrl,
+      fileUrl: video[0].path,
+      thumbUrl: "/" + thumb[0].destination + thumb[0].filename,
       title,
       description,
       hashtags: Video.hashtagsForm(hashtags),
@@ -72,6 +77,7 @@ export const postUpload = async (req, res) => {
     const user = await User.findById(_id);
     user.videos.push(newVideo._id);
     user.save();
+    req.flash("success", "Upload complete.");
     return res.redirect("/");
   } catch (error) {
     return res.status(400).render("upload", { errMsg: `🔴${error._message}` });
@@ -85,11 +91,20 @@ export const deleteVideo = async (req, res) => {
   if (String(video.owner) !== String(req.session.user._id))
     return res.status(403).redirect("/");
   const user = await User.findById(video.owner);
+  fs.unlink(video.fileUrl, function (err) {
+    if (err) throw err;
+    console.log("file deleted");
+  });
+  fs.unlink(video.thumbUrl.substr(1).replaceAll("/", "\\"), function (err) {
+    if (err) throw err;
+    console.log("file deleted");
+  });
   user.videos = user.videos.filter(
     (userVideo) => String(userVideo) !== String(video._id),
   );
   user.save();
   await Video.findByIdAndDelete(id);
+  req.flash("success", "Delete completed.");
   return res.redirect("/");
 };
 
@@ -103,6 +118,7 @@ export const search = async (req, res) => {
       },
     });
   }
+  req.flash("success", "Search completed.");
   return res.render("search", { pageTitle: "Search", videos });
 };
 

@@ -1,3 +1,5 @@
+include mixins/message.pug
+
 doctype html
 html(lang="en")
   head
@@ -8,6 +10,11 @@ html(lang="en")
     link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css")
     link(rel="stylesheet" href="/static/css/styles.css")
   body 
+    if messages.error 
+      +message("message--error", messages.error)
+    if messages.success 
+      +message("message--success", messages.success)
+      
     include partials/header.pug
     main 
       block content

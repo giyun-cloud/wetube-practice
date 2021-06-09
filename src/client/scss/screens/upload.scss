@@ -5,6 +5,10 @@
   padding: 10px 15px;
   border-radius: 5px;
   border: 1px solid rgba($color: #fff, $alpha: 0.1);
+  #setTime {
+    font-size: 0.7rem;
+    color:#ced4da;
+  }
   button {
     display: block;
     width: 140px;
@@ -14,5 +18,33 @@
     background-color: #495057;
     color: #fff;
     margin: 5px auto 0;
+    cursor: pointer;
   }
+}
+.videoLabel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  #videoThumnail {
+    border-radius: 7px;
+    background-color: #e9ecef;
+    border: 1px solid #fff;
+    color: $bg;
+    margin-bottom: 10px;
+    text-decoration: none;
+    padding: 3px 7px;
+    font-size: 0.7rem;
+    &.progressing {
+      animation-duration: 1s;
+      animation-name: rotateX;
+      animation-iteration-count: infinite;
+      animation-direction: alternate;
+    }
+  }
+}
+  @keyframes rotateX {
+    to {
+      background-color: $primary;
+      border: 1px solid $primary;
+    }
 }

@@ -1,6 +1,7 @@
 import express from "express";
 import morgan from "morgan";
 import session from "express-session";
+import flash from "express-flash";
 import MongoStore from "connect-mongo";
 import rootRouter from "./routers/rootRouter.js";
 import userRouter from "./routers/userRouter";
@@ -22,12 +23,13 @@ app.use(
   }),
 );
 app.use(localsMiddleware);
-
+app.use(flash());
 app.use("/", rootRouter);
 app.use("/users", userRouter);
 app.use("/videos", videoRouter);
 app.use("/api", apiRouter);
 app.use("/uploads", express.static("uploads"));
 app.use("/static", express.static("assets"));
+app.use("/favicon.ico", express.static("favicon.ico"));
 
 export default app;

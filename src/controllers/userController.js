@@ -1,5 +1,4 @@
 import User from "../models/User";
-import Video from "../models/Video";
 import bcrypt from "bcrypt";
 import fetch from "node-fetch";
 
@@ -30,6 +29,7 @@ export const postJoin = async (req, res) => {
       password,
       location,
     });
+    req.flash("success", "Sign up complete.");
     return res.redirect("/login");
   } catch (error) {
     return res.status(400).redirect("/join", {
@@ -61,6 +61,7 @@ export const postLogin = async (req, res) => {
   }
   req.session.loggedIn = true;
   req.session.user = user;
+  req.flash("success", "Log-in complete.");
   return res.redirect("/");
 };
 
@@ -129,6 +130,7 @@ export const finishGithubLogin = async (req, res) => {
     console.log(user);
     req.session.loggedIn = true;
     req.session.user = user;
+    req.flash("success", "Log-in complete with github.");
     return res.redirect("/");
   } else res.redirect("/login");
 };
@@ -173,6 +175,7 @@ export const postEdit = async (req, res) => {
     { new: true },
   );
   req.session.user = user;
+  req.flash("success", "Edit done.");
   return res.redirect("/");
 };
 
@@ -221,6 +224,7 @@ export const postChangePassword = async (req, res) => {
   console.log(user.password);
   req.session.user.password = user.password;
   console.log(user.password);
+  req.flash("success", "Password change complete.");
   res.redirect("/users/logout");
 };
 
@@ -232,5 +236,3 @@ export const see = async (req, res) => {
   }
   return res.render("users/profile", { pageTitle: user.name, user });
 };
-
-export const remove = (req, res) => res.send("<h1>Remove User</h1>");

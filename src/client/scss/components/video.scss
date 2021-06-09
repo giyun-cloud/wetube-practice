@@ -3,10 +3,9 @@
   .video-mixin__thumb {
     height: 140px;
     border-radius: 7px;
-    border: 1px solid rgba(255,255,255,.5);
+    border: 1px solid rgba(255,255,255,0.7);
     box-sizing: border-box;
     width: 100%;
-    background-color: #e9ecef;
   }
   .video-mixin__data {
     padding: 0px 15px;
