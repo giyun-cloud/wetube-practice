@@ -15,10 +15,7 @@ header
           a(href="/users/logout")  Log Out
         li  
           a(href=`/users/${userInfo._id}`)
-            if userInfo.avatarUrl === "" || !userInfo.avatarUrl
-              img.header__avatar(src="/uploads/avatar/basic_profile.png")
-            else
-              img(onerror="this.src='/uploads/avatar/NoImage.png'").header__avatar(src="/" + userInfo.avatarUrl)
+              img(onerror="this.src='/uploads/avatar/NoImage.png'",src="/" + userInfo.avatarUrl).header__avatar
       else
         li
           a(href="/login") Login

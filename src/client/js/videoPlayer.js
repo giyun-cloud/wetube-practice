@@ -43,11 +43,14 @@ const handlePlayVideo = () => {
 };
 
 window.addEventListener("keydown", (e) => {
-  if (e.code === "Space") {
-    e.preventDefault();
-    handlePlayVideo();
+  if (document.activeElement === document.body) {
+    if (e.code === "Space") {
+      e.preventDefault();
+      handlePlayVideo();
+    }
   }
 });
+
 playBtn.addEventListener("click", handlePlayVideo);
 muteBtn.addEventListener("click", () => {
   if (video.muted) {

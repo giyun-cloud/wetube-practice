@@ -23,7 +23,7 @@ export const postJoin = async (req, res) => {
   try {
     await User.create({
       name,
-      avatarUrl: "",
+      avatarUrl: "/uploads/avatar/basic_profile.png",
       email,
       username,
       password,
@@ -127,7 +127,6 @@ export const finishGithubLogin = async (req, res) => {
         location: !userData.location ? "Enter your location" : userData.name,
       });
     }
-    console.log(user);
     req.session.loggedIn = true;
     req.session.user = user;
     req.flash("success", "Log-in complete with github.");
@@ -221,9 +220,7 @@ export const postChangePassword = async (req, res) => {
   const user = await User.findById(_id);
   user.password = newPW;
   user.save();
-  console.log(user.password);
   req.session.user.password = user.password;
-  console.log(user.password);
   req.flash("success", "Password change complete.");
   res.redirect("/users/logout");
 };

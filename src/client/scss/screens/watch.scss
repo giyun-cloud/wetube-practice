@@ -1,0 +1,10 @@
+.video__comments {
+  .video__comment {
+    display: flex;
+    .user__info {
+      a {
+        width: 100px;
+      }
+    }
+  }  
+}

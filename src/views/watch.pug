@@ -29,9 +29,19 @@ block content
     br
     a(href=`${video.id}/delete`) Delete Video &rarr;
   if loggedIn
-    form.video__comments#commentForm 
+    form.video__add--comments#commentForm 
       textarea(cols="30", rows="10", placeholder="Write a comment...")
       button Add Comment
+  div.video__comments 
+    ul
+      each comment in video.comments.reverse()
+        li.video__comment 
+          div.user__info
+            a(href=`/users/${comment.owner._id}`)
+              img(onerror="this.src='/uploads/avatar/NoImage.png'",src="/" + comment.owner.avatarUrl) 
+            | #{comment.owner.name} #{comment.createdAt.toLocaleString()}
+            
+          div.text #{comment.text}
     
 block scripts 
   script(src="/static/js/videoPlayer.js")
