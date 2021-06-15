@@ -29,19 +29,25 @@ block content
     br
     a(href=`${video.id}/delete`) Delete Video &rarr;
   if loggedIn
-    form.video__add--comments#commentForm 
-      textarea(cols="30", rows="10", placeholder="Write a comment...")
+    form.video__add.video__comment#commentForm 
+      a(href=`/users/${userInfo._id}`)
+        img(onerror="this.src='/uploads/avatar/NoImage.png'",src="/" + userInfo.avatarUrl) 
+      div.text
+        div.text--user 
+          a(href=`/users/${userInfo._id}`) #{userInfo.name} 
+        textarea(placeholder="Write a nice commment...").text--comment
       button Add Comment
   div.video__comments 
     ul
       each comment in video.comments.reverse()
         li.video__comment 
-          div.user__info
-            a(href=`/users/${comment.owner._id}`)
-              img(onerror="this.src='/uploads/avatar/NoImage.png'",src="/" + comment.owner.avatarUrl) 
-            | #{comment.owner.name} #{comment.createdAt.toLocaleString()}
-            
-          div.text #{comment.text}
+          a(href=`/users/${comment.owner._id}`)
+            img(onerror="this.src='/uploads/avatar/NoImage.png'",src="/" + comment.owner.avatarUrl) 
+          div.text
+            div.text--user 
+              a(href=`/users/${comment.owner._id}`) #{comment.owner.name} 
+              span=comment.createdAt.toLocaleString()
+            div.text--comment #{comment.text}
     
 block scripts 
   script(src="/static/js/videoPlayer.js")

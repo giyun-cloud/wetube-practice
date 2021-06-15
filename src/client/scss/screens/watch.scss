@@ -1,10 +1,57 @@
-.video__comments {
-  .video__comment {
-    display: flex;
-    .user__info {
+form.video__add {
+  border: none;
+  padding: 0;
+  position: relative;
+  margin: 50px auto;
+  textarea {
+    display: block;
+    width: 100%;
+    outline: none;
+    background-color: transparent;
+    color: #fff;
+    height: 75px;
+    &::placeholder {
+      color: #fff;
+      font-weight: 700;
+    }
+  }
+  button {
+    position: absolute;
+    right: 0;
+    bottom: -20px;
+  }
+}
+
+.video__comment {
+  max-width: 1000px;
+  border-radius: 10px;
+  margin: 0 auto;
+  display: flex;
+  a > img {
+    width: 40px;
+    height: 40px;
+  }
+  .text {
+    margin: 0 0 10px;
+    flex-grow: 1;
+    background-color: #495057;
+    padding: 5px 7px 10px;
+    margin-top: 3px;
+    border-radius: 10px;
+    box-shadow: 1px 1px 3px #fff;
+    .text--user {
+      font-size: 0.9rem;
+      margin-bottom: 3px;
+      font-weight: 700; 
       a {
-        width: 100px;
+        color: #f8f9fa;
+      }
+      span {
+        font-size: 0.5rem;
+        color: #dee2e6;
+        line-height: 1.5;
       }
     }
-  }  
-}
+  }
+}  
+
