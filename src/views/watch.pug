@@ -1,7 +1,7 @@
 extends base
 
 block content
-  div#videoContainer(data-id=video._id)
+  div#videoContainer(data-id=video._id, data-user=userInfo)
     video(src='/' + video.fileUrl)  
     div#videoControls
       input(type="range", step="0.1", value="0", min="0")#timeLine
@@ -18,16 +18,15 @@ block content
             span#totalTime 00:00:00
         button#fullscreen 
           i.fas.fa-expand
-  div 
-    p=video.description
-    small=video.createdAt
-  div 
+  div.info
+    h1=video.description
+    span &nbsp;createdAt : #{video.createdAt.toLocaleString('ko-KR', { timeZone: 'UTC' })}
+    if String(video.owner._id) === String(userInfo._id)
+      a(href=`${video.id}/edit`).far.fa-edit
+      a(href=`${video.id}/delete`).far.fa-trash-alt
+  div.manage
     small Upload by 
       a(href=`/users/${video.owner._id}`)=video.owner.name
-  if String(video.owner._id) === String(userInfo._id)
-    a(href=`${video.id}/edit`) Edit Video &rarr;
-    br
-    a(href=`${video.id}/delete`) Delete Video &rarr;
   if loggedIn
     form.video__add.video__comment#commentForm 
       a(href=`/users/${userInfo._id}`)
@@ -48,6 +47,8 @@ block content
               a(href=`/users/${comment.owner._id}`) #{comment.owner.name} 
               span=comment.createdAt.toLocaleString()
             div.text--comment #{comment.text}
+          if loggedIn && String(comment.owner._id) === String(userInfo._id)
+            i.fas.fa-trash(data-id=comment._id)
     
 block scripts 
   script(src="/static/js/videoPlayer.js")

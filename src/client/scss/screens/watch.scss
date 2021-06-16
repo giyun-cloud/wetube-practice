@@ -1,3 +1,24 @@
+.info {
+  display: flex;
+  align-items: center;
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+  a {
+    display: block;
+    margin-left: 5px;
+    font-size: 1.2rem;
+  }
+  .far.fa-edit:hover {
+    color: $primary;
+  }
+  .far.fa-trash-alt:hover {
+    color: #ff6b6b;
+  }
+}
+
 form.video__add {
   border: none;
   padding: 0;
@@ -27,6 +48,7 @@ form.video__add {
   border-radius: 10px;
   margin: 0 auto;
   display: flex;
+  position: relative;
   a > img {
     width: 40px;
     height: 40px;
@@ -51,6 +73,17 @@ form.video__add {
         color: #dee2e6;
         line-height: 1.5;
       }
+    }
+  }
+  .fa-trash {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+    opacity: 0.3;
+    &:hover {
+      opacity: 1;
+      color: #ff6b6b;
     }
   }
 }  
