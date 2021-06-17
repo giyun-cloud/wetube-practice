@@ -41,7 +41,10 @@ block content
       each comment in video.comments.reverse()
         li.video__comment 
           a(href=`/users/${comment.owner._id}`)
-            img(onerror="this.src='/uploads/avatar/NoImage.png'",src="/" + comment.owner.avatarUrl) 
+            if userInfo.socialOnly
+              img(onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg'",src=userInfo.avatarUrl).header__avatar
+            else
+              img(onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg'",src="/" + userInfo.avatarUrl).header__avatar 
           div.text
             div.text--user 
               a(href=`/users/${comment.owner._id}`) #{comment.owner.name} 
