@@ -92,14 +92,12 @@ const deleteComment = () => {
     deleteComments.forEach((element) => {
       const id = element.dataset.id;
       element.addEventListener("click", () => {
-        fetch(`/api/videos/${videoId}/comment/delete`, {
-          method: "POST",
+        fetch(`/api/comment/${id}/delete`, {
+          method: "DELETE",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ id }),
         });
-        //delete
         const li = element.parentNode;
         li.parentNode.removeChild(li);
       });

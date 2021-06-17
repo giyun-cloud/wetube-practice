@@ -2,6 +2,7 @@ import Video from "../models/Video";
 import User from "../models/User";
 import Comment from "../models/Comment";
 import fs from "fs";
+import { commentFilter } from "../controllers/commentController";
 
 export const home = async (req, res) => {
   try {
@@ -141,53 +142,4 @@ export const registerView = async (req, res) => {
   video.meta.views += 1;
   await video.save();
   return res.sendStatus(200);
-};
-
-//  COMMENT
-export const createComment = async (req, res) => {
-  const {
-    params: { id },
-    session: {
-      user: { _id: owner },
-    },
-    body: { text },
-  } = req;
-  const video = await Video.findById(id);
-  const user = await User.findById(owner);
-  if (!video || !user) return res.sendStatus(404);
-  const comment = await Comment.create({
-    owner,
-    video: video._id,
-    text,
-  });
-  video.comments.push(comment._id);
-  user.comments.push(comment._id);
-  await video.save();
-  await user.save();
-  return res.status(201).json({ id: comment._id });
-};
-
-const commentFilter = async (element, comment) => {
-  element.comments = element.comments.filter((el) => {
-    return String(el) !== String(comment._id);
-  });
-  await element.save();
-};
-
-export const deleteComment = async (req, res) => {
-  const {
-    params: { id: videoId },
-    session: {
-      user: { _id: userId },
-    },
-    body: { id },
-  } = req;
-  const video = await Video.findById(videoId);
-  const user = await User.findById(userId);
-  const comment = await Comment.findByIdAndDelete(id);
-  if (!video || !user || !comment) return res.sendStatus(404);
-  commentFilter(video, comment);
-  commentFilter(user, comment);
-  req.session.user = user;
-  return res.sendStatus(201);
 };
