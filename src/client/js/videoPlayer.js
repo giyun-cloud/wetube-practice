@@ -118,3 +118,15 @@ fullscreenBtn.addEventListener("click", () => {
     fullscreenBtnIcon.className = "fas fa-compress";
   }
 });
+
+const init = () => {
+  console.log(funcformatTime(Math.floor(video.duration)));
+  totalTime.innerText = funcformatTime(Math.floor(video.duration));
+  currentTime.innerText = currentTime.innerText.substr(8 - timeLength);
+  timeLine.max = Math.floor(video.duration * 10) / 10;
+  video.addEventListener("timeupdate", () => {
+    currentTime.innerText = funcformatTime(Math.floor(video.currentTime), true);
+    timeLine.value = video.currentTime;
+  });
+};
+init();
