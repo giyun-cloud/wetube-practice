@@ -15,10 +15,7 @@ header
           a(href="/users/logout")  Log Out
         li  
           a(href=`/users/${userInfo._id}`)
-            if userInfo.socialOnly
-              img(onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg'",src=userInfo.avatarUrl).header__avatar
-            else
-              img(onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg'",src="/" + userInfo.avatarUrl).header__avatar
+            img(onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png'",src=userInfo.avatarUrl).header__avatar
       else
         li
           a(href="/login") Login
