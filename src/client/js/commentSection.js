@@ -39,6 +39,8 @@ const addComment = (text) => {
   const divTextComment = document.createElement("div");
   const i = document.createElement("i");
 
+  console.log(user.avatarUrl);
+
   li.className = "video__comment";
   divText.className = "text";
   divTextUser.className = "text--user";

@@ -30,7 +30,7 @@ block content
   if loggedIn
     form.video__add.video__comment#commentForm 
       a(href=`/users/${userInfo._id}`)
-        img(onerror="this.src='/uploads/avatar/NoImage.png'",src="/" + userInfo.avatarUrl) 
+        img(onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png'",src=userInfo.avatarUrl).avatar
       div.text
         div.text--user 
           a(href=`/users/${userInfo._id}`) #{userInfo.name} 
@@ -41,7 +41,7 @@ block content
       each comment in video.comments.reverse()
         li.video__comment 
           a(href=`/users/${comment.owner._id}`)
-            img(onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png'",src=userInfo.avatarUrl).header__avatar
+            img(onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png'",src=userInfo.avatarUrl).avatar
           div.text
             div.text--user 
               a(href=`/users/${comment.owner._id}`) #{comment.owner.name} 
