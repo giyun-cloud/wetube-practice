@@ -1,8 +1,9 @@
 import Video from "../models/Video";
 import User from "../models/User";
 import Comment from "../models/Comment";
-import fs from "fs";
 import { commentFilter } from "../controllers/commentController";
+import aws from "aws-sdk";
+const s3 = new aws.S3();
 
 export const home = async (req, res) => {
   try {
@@ -99,14 +100,32 @@ export const deleteVideo = async (req, res) => {
   if (String(video.owner) !== String(req.session.user._id))
     return res.status(403).redirect("/");
   const user = await User.findById(video.owner);
-  fs.unlink(video.fileUrl, function (err) {
-    if (err) throw err;
-    //
-  });
-  fs.unlink(video.thumbUrl.substr(1).replaceAll("/", "\\"), function (err) {
-    if (err) throw err;
-    //
-  });
+  console.log(video.fileUrl);
+  console.log(video.thumbUrl);
+  s3.deleteObject(
+    {
+      Bucket: "cloud-wetube",
+      Key: "videos/",
+    },
+    (err, data) => {
+      if (err) {
+        throw err;
+      }
+      console.log("s3 deleteObject ", data);
+    },
+  );
+  s3.deleteObject(
+    {
+      Bucket: "cloud-wetube",
+      Key: "images/",
+    },
+    (err, data) => {
+      if (err) {
+        throw err;
+      }
+      console.log("s3 deleteObject ", data);
+    },
+  );
   user.videos = user.videos.filter(
     (userVideo) => String(userVideo) !== String(video._id),
   );
