@@ -20,7 +20,7 @@ block content
           i.fas.fa-expand
   div.info
     h1=video.description
-    span &nbsp;createdAt : #{video.createdAt.toLocaleString()}
+    span &nbsp;createdAt : #{video.createdAt.toLocaleString('ko-KR')}
     if String(video.owner._id) === String(userInfo._id)
       a(href=`${video.id}/edit`).far.fa-edit
       a(href=`${video.id}/delete`).far.fa-trash-alt
@@ -45,7 +45,7 @@ block content
           div.text
             div.text--user 
               a(href=`/users/${comment.owner._id}`) #{comment.owner.name} 
-              span=comment.createdAt.toLocaleString()
+              span #{comment.createdAt.toLocaleString('ko-KR')}
             div.text--comment #{comment.text}
           if loggedIn && (String(comment.owner._id) === String(userInfo._id) || String(video.owner._id) === String(userInfo._id))
             i.fas.fa-trash(data-id=comment._id)
