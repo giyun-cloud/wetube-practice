@@ -9,6 +9,8 @@ const s3 = new aws.S3({
     secretAccessKey: process.env.AWS_SECRET,
   },
 });
+
+const isHeroku = process.env.NODE_ENV === "production";
 const s3ImageUploader = multerS3({
   s3,
   bucket: "cloud-wetube/videos",
@@ -18,6 +20,12 @@ const s3ImageUploader = multerS3({
 const s3VideoUploader = multerS3({
   s3,
   bucket: "cloud-wetube/videos",
+  acl: "public-read",
+});
+
+const s3LocalUploader = multerS3({
+  s3,
+  bucket: "cloud-wetube/local",
   acl: "public-read",
 });
 
@@ -45,14 +53,14 @@ export const avatarUpload = multer({
   limits: {
     fileSize: 3000000,
   },
-  storage: s3ImageUploader,
+  storage: isHeroku ? s3ImageUploader : s3LocalUploader,
 });
 export const videoUpload = multer({
   dest: "uploads/video/",
   limits: {
     fileSize: 10000000,
   },
-  storage: s3VideoUploader,
+  storage: isHeroku ? s3VideoUploader : s3LocalUploader,
 });
 
 export const idTypeCheck = (req, res, next) => {

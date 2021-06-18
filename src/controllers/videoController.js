@@ -3,7 +3,12 @@ import User from "../models/User";
 import Comment from "../models/Comment";
 import { commentFilter } from "../controllers/commentController";
 import aws from "aws-sdk";
-const s3 = new aws.S3();
+let s3 = new aws.S3({
+  credentials: {
+    accessKeyId: process.env.AWS_ID,
+    secretAccessKey: process.env.AWS_SECRET,
+  },
+});
 
 export const home = async (req, res) => {
   try {
@@ -93,6 +98,11 @@ export const postUpload = async (req, res) => {
   }
 };
 
+const outputDeleteFile = (url) => {
+  const index = url.indexOf(".com/");
+  return url.substr(index + 5);
+};
+
 export const deleteVideo = async (req, res) => {
   const { id } = req.params;
   const video = await Video.findById(id);
@@ -100,12 +110,12 @@ export const deleteVideo = async (req, res) => {
   if (String(video.owner) !== String(req.session.user._id))
     return res.status(403).redirect("/");
   const user = await User.findById(video.owner);
-  console.log(video.fileUrl);
-  console.log(video.thumbUrl);
+  const videoUrl = outputDeleteFile(video.fileUrl);
+  const thumbUrl = outputDeleteFile(video.thumbUrl);
   s3.deleteObject(
     {
       Bucket: "cloud-wetube",
-      Key: "videos/",
+      Key: videoUrl,
     },
     (err, data) => {
       if (err) {
@@ -117,7 +127,7 @@ export const deleteVideo = async (req, res) => {
   s3.deleteObject(
     {
       Bucket: "cloud-wetube",
-      Key: "images/",
+      Key: thumbUrl,
     },
     (err, data) => {
       if (err) {
