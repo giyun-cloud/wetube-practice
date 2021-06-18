@@ -74,7 +74,9 @@ volumeRange.addEventListener("input", (e) => {
 });
 video.addEventListener("click", handlePlayVideo);
 video.addEventListener("loadedmetadata", () => {
+  console.log("시작");
   totalTime.innerText = funcformatTime(Math.floor(video.duration));
+  console.log(funcformatTime(Math.floor(video.duration)));
   currentTime.innerText = currentTime.innerText.substr(8 - timeLength);
   timeLine.max = Math.floor(video.duration * 10) / 10;
   video.addEventListener("timeupdate", () => {
