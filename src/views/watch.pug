@@ -2,7 +2,7 @@ extends base
 
 block content
   div#videoContainer(data-id=video._id, data-user=userInfo)
-    video(src='/' + video.fileUrl)  
+    video(src=video.fileUrl)  
     div#videoControls
       input(type="range", step="0.1", value="0", min="0")#timeLine
       div#controls--btns
