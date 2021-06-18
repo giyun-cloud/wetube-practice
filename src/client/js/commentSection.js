@@ -47,8 +47,11 @@ const addComment = (text) => {
   divTextComment.className = "text--comment";
   i.className = "fas fa-trash";
   a.setAttribute("href", `/users/${user._id}`);
-  img.setAttribute("onerror", "this.src='/uploads/avatar/NoImage.png'");
-  img.setAttribute("src", `/${user.avatarUrl}`);
+  img.setAttribute(
+    "onerror",
+    "this.src='https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png'",
+  );
+  img.setAttribute("src", `${user.avatarUrl}`);
   aUser.setAttribute("href", `/users/${user._id}`);
   i.setAttribute("data-id", contentId);
 
