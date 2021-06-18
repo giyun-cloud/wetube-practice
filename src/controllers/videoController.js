@@ -133,7 +133,7 @@ export const search = async (req, res) => {
     });
   }
   req.flash("success", "Search completed.");
-  return res.render("search", { pageTitle: "Search", videos });
+  return res.render("search", { pageTitle: "Search", videos, keyword });
 };
 
 export const registerView = async (req, res) => {

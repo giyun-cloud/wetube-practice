@@ -2,10 +2,9 @@ extends base
 include mixins/video
 
 block content 
-  form.search__form
-    input(placeholder="Search by title", name="keyword", required)
-    button 
-      i.fas.fa-search
+  h3.searchBy Search by "
+    span  #{keyword} 
+    | "
   div.video-grid
     each video in videos 
       +video(video)
