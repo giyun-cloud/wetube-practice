@@ -3,7 +3,7 @@ include ../mixins/video.pug
 
 block content 
   div.profile__data
-    img(onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png'",src=userInfo.avatarUrl).avatar
+    img(onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png'",src=user.avatarUrl).avatar
     h3=user.name
   div.video-grid
     each video in user.videos 
